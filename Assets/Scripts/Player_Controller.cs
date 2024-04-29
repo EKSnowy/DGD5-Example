@@ -15,7 +15,10 @@ public class Player_Controller : MonoBehaviour
     public GameObject ClosetTP;
 
     public GameObject Flashlight;
+    public GameObject ShortFlashlight;
     public bool canFlash = true;
+    public bool canShortFlash = false;
+    public bool ShortToggle = true;
 
     public bool canMove = true;
     public bool canTP = true;
@@ -27,6 +30,7 @@ public class Player_Controller : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
         
+        ShortFlashlight.SetActive(false);
         Flashlight.SetActive(false);
         startRot = Eyes.transform.rotation;
     }
@@ -44,6 +48,23 @@ public class Player_Controller : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            if (canShortFlash)
+            {
+                if (ShortToggle)
+                {
+                    ShortFlashlight.SetActive(true);
+                    ShortToggle = false;
+                }
+                
+                else
+                {
+                    ShortToggle = true;
+                    ShortFlashlight.SetActive(false);
+                }
+
+                return;
+            }
+            
             if (!canFlash)
             {
                 canFlash = true;
@@ -63,7 +84,10 @@ public class Player_Controller : MonoBehaviour
             transform.position = WindowTP.transform.position;
 
             canMove = false;
+            canShortFlash = true;
             canTP = false;
+            
+            Flashlight.SetActive(false);
         }
         if (Input.GetKey(KeyCode.W) && canTP)
         {
@@ -71,7 +95,10 @@ public class Player_Controller : MonoBehaviour
             transform.position = ClosetTP.transform.position;
             
             canMove = false;
+            canShortFlash = true;
             canTP = false;
+            
+            Flashlight.SetActive(false);
         }
         if (Input.GetKey(KeyCode.D) && canTP)
         {
@@ -79,15 +106,23 @@ public class Player_Controller : MonoBehaviour
             transform.position = DoorTP.transform.position;
             
             canMove = false;
+            canShortFlash = true;
             canTP = false;
+            
+            Flashlight.SetActive(false);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) && !canTP)
         {
             Eyes.transform.rotation = startRot;
             transform.position = StartPos.transform.position;
             
             canMove = true;
+            canShortFlash = false;
             canTP = true;
+            
+            ShortFlashlight.SetActive(false);
+            Flashlight.SetActive(false);  
+            
         }
     }
     
