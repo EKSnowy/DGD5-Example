@@ -24,6 +24,15 @@ public class Player_Controller : MonoBehaviour
     public bool canTP = true;
 
     public Quaternion startRot;
+
+    public Material WoodTexture;
+
+    public GameObject ClosetClose;
+    public GameObject ClosetOpen;
+    public GameObject ClosetSliOpen;
+
+    public CM_Script CM;
+    public bool atCloset = false;
     
     void Start()
     {
@@ -44,6 +53,19 @@ public class Player_Controller : MonoBehaviour
             float yRot = -Input.GetAxis("Mouse Y") * MouseSensitivity;
             transform.Rotate(0,xRot,0);
             Eyes.transform.Rotate(yRot,0,0);
+
+            /////Limiting FOV (Cant flip camera)\\\\\\
+            
+            // if (Eyes.transform.rotation.x > .5f)
+            // {
+            //     Eyes.transform.rotation = Quaternion.Euler(50,xRot,0);
+            // }
+            //
+            // if (Eyes.transform.rotation.x < -.6f)
+            // {
+            //     Eyes.transform.rotation = Quaternion.Euler(-60,xRot,0);
+            // }
+            
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -54,6 +76,9 @@ public class Player_Controller : MonoBehaviour
                 {
                     ShortFlashlight.SetActive(true);
                     ShortToggle = false;
+                    
+                    if(atCloset)
+                        CM.goBack(.2f);
                 }
                 
                 else
@@ -76,7 +101,24 @@ public class Player_Controller : MonoBehaviour
                 canFlash = false;
             }
         }
+        
+        ////If hovering over area, shows prompt to go\\\\\
+        
+        // if (Input.GetMouseButton(0))
+        // {
+        //     if (Physics.Raycast(Eyes.transform.position, Eyes.transform.forward,
+        //             out RaycastHit hit, 10))
+        //     {
+        //         MeshRenderer mr = hit.collider.GetComponent<MeshRenderer>();
+        //         if (mr.material == WoodTexture)
+        //         {
+        //             Debug.Log("Door");
+        //         }
+        //     }
+        // }
 
+        ///////// Teleports to Window \\\\\\\\\\\\
+    
         if (Input.GetKey(KeyCode.A) && canTP)
         {
             Eyes.transform.rotation = startRot;
@@ -89,17 +131,27 @@ public class Player_Controller : MonoBehaviour
             
             Flashlight.SetActive(false);
         }
+        
+        ///////// Teleports to Closet \\\\\\\\\\\\
+        
         if (Input.GetKey(KeyCode.W) && canTP)
         {
             Eyes.transform.rotation = startRot;
             transform.position = ClosetTP.transform.position;
             
+            ClosetClose.SetActive(false);
+            ClosetOpen.SetActive(true);
+
+            atCloset = true;
             canMove = false;
             canShortFlash = true;
             canTP = false;
             
             Flashlight.SetActive(false);
         }
+        
+        ///////// Teleports to Door \\\\\\\\\\\\
+        
         if (Input.GetKey(KeyCode.D) && canTP)
         {
             Eyes.transform.rotation = startRot;
@@ -111,19 +163,35 @@ public class Player_Controller : MonoBehaviour
             
             Flashlight.SetActive(false);
         }
+        
+        ///////// Teleports to Start \\\\\\\\\\\\
+        
         if (Input.GetKey(KeyCode.S) && !canTP)
         {
             Eyes.transform.rotation = startRot;
             transform.position = StartPos.transform.position;
             
+            ClosetClose.SetActive(true);
+            ClosetOpen.SetActive(false);
+
+            atCloset = false;
             canMove = true;
             canShortFlash = false;
             canTP = true;
             
             ShortFlashlight.SetActive(false);
-            Flashlight.SetActive(false);  
+            Flashlight.SetActive(false);
             
         }
+        
+        ////////// Visual and Audio Indicator when CM is Attacking \\\\\\\\\\\
+        if (CM.isAttacking() && !atCloset)
+        {
+            ClosetClose.SetActive(false);
+            ClosetSliOpen.SetActive(true);
+        }
+        else
+            ClosetSliOpen.SetActive(false);
     }
     
 }
