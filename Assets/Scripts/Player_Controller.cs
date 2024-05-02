@@ -40,6 +40,8 @@ public class Player_Controller : MonoBehaviour
     public CM_Script CM;
     public bool atCloset = false;
 
+    public CPM_Script CPM;
+
     public Vector3 cameraMovement;
     
     void Start()
