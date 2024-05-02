@@ -20,9 +20,15 @@ public class Player_Controller : MonoBehaviour
     public bool canShortFlash = false;
     public bool ShortToggle = true;
 
+    public bool isFlashing;
+
     public bool canMove = true;
     public bool canTP = true;
-
+    public bool canTPBack = false;
+    
+    public float TPCooldown;
+    public bool triggerCooldown;
+    
     public Quaternion startRot;
 
     public Material WoodTexture;
@@ -33,6 +39,8 @@ public class Player_Controller : MonoBehaviour
 
     public CM_Script CM;
     public bool atCloset = false;
+
+    public Vector3 cameraMovement;
     
     void Start()
     {
@@ -42,6 +50,8 @@ public class Player_Controller : MonoBehaviour
         ShortFlashlight.SetActive(false);
         Flashlight.SetActive(false);
         startRot = Eyes.transform.rotation;
+
+        TPCooldown = .5f;
     }
 
     
@@ -51,21 +61,23 @@ public class Player_Controller : MonoBehaviour
         {
             float xRot = Input.GetAxis("Mouse X") * MouseSensitivity;
             float yRot = -Input.GetAxis("Mouse Y") * MouseSensitivity;
-            transform.Rotate(0,xRot,0);
-            Eyes.transform.Rotate(yRot,0,0);
 
-            /////Limiting FOV (Cant flip camera)\\\\\\
+            Vector3 eRot = Eyes.transform.localRotation.eulerAngles;
+            eRot.x += yRot;
+
+            if (eRot.x < -180)
+                eRot.x += 360;
+
+            if (eRot.x > 180)
+                eRot.x -= 360;
+
+            eRot = new Vector3(Mathf.Clamp(eRot.x, -90, 90), 0, 0);
+            Eyes.transform.localRotation = Quaternion.Euler(eRot);
             
-            // if (Eyes.transform.rotation.x > .5f)
-            // {
-            //     Eyes.transform.rotation = Quaternion.Euler(50,xRot,0);
-            // }
-            //
-            // if (Eyes.transform.rotation.x < -.6f)
-            // {
-            //     Eyes.transform.rotation = Quaternion.Euler(-60,xRot,0);
-            // }
+            transform.Rotate(0,xRot,0);
+            //Eyes.transform.Rotate(yRot,0,0);
             
+            cameraMovement = Eyes.velocity;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -77,6 +89,8 @@ public class Player_Controller : MonoBehaviour
                     ShortFlashlight.SetActive(true);
                     ShortToggle = false;
                     
+                    isFlashing = true;
+                    
                     if(atCloset)
                         CM.goBack(.2f);
                 }
@@ -85,6 +99,8 @@ public class Player_Controller : MonoBehaviour
                 {
                     ShortToggle = true;
                     ShortFlashlight.SetActive(false);
+                    
+                    isFlashing = false;
                 }
 
                 return;
@@ -94,12 +110,21 @@ public class Player_Controller : MonoBehaviour
             {
                 canFlash = true;
                 Flashlight.SetActive(false);
+                
+                isFlashing = false;
             }
             else
             {
                 Flashlight.SetActive(true);
                 canFlash = false;
+                
+                isFlashing = true;
             }
+        }
+
+        if (triggerCooldown)
+        {
+            TPCooldown -= Time.deltaTime;
         }
         
         ////If hovering over area, shows prompt to go\\\\\
@@ -130,6 +155,8 @@ public class Player_Controller : MonoBehaviour
             canTP = false;
             
             Flashlight.SetActive(false);
+
+            triggerCooldown = true;
         }
         
         ///////// Teleports to Closet \\\\\\\\\\\\
@@ -148,6 +175,8 @@ public class Player_Controller : MonoBehaviour
             canTP = false;
             
             Flashlight.SetActive(false);
+            
+            triggerCooldown = true;
         }
         
         ///////// Teleports to Door \\\\\\\\\\\\
@@ -162,14 +191,19 @@ public class Player_Controller : MonoBehaviour
             canTP = false;
             
             Flashlight.SetActive(false);
+
+            triggerCooldown = true;
         }
         
         ///////// Teleports to Start \\\\\\\\\\\\
         
-        if (Input.GetKey(KeyCode.S) && !canTP)
+        if (Input.GetKey(KeyCode.S) && !canTP && TPCooldown <= 0)
         {
             Eyes.transform.rotation = startRot;
             transform.position = StartPos.transform.position;
+            
+            TPCooldown = .5f;
+            triggerCooldown = false;
             
             ClosetClose.SetActive(true);
             ClosetOpen.SetActive(false);
@@ -192,6 +226,16 @@ public class Player_Controller : MonoBehaviour
         }
         else
             ClosetSliOpen.SetActive(false);
+    }
+
+    public Vector3 getCamMov()
+    {
+        return cameraMovement;
+    }
+
+    public bool getFlashing()
+    {
+        return isFlashing;
     }
     
 }
