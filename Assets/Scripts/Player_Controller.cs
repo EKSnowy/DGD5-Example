@@ -21,10 +21,10 @@ public class Player_Controller : MonoBehaviour
     public bool ShortToggle = true;
 
     public bool isFlashing;
+    public bool repel;
 
     public bool canMove = true;
     public bool canTP = true;
-    public bool canTPBack = false;
     
     public float TPCooldown;
     public bool triggerCooldown;
@@ -39,8 +39,6 @@ public class Player_Controller : MonoBehaviour
 
     public CM_Script CM;
     public bool atCloset = false;
-
-    public CPM_Script CPM;
 
     public Vector3 cameraMovement;
     
@@ -239,5 +237,4 @@ public class Player_Controller : MonoBehaviour
     {
         return isFlashing;
     }
-    
 }
