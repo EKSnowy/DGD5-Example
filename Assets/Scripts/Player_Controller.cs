@@ -37,6 +37,9 @@ public class Player_Controller : MonoBehaviour
     public CM_Script CM;
     public bool atCloset = false;
 
+    public DM_Script DM;
+    public bool atDoor = false;
+    
     public Vector3 cameraMovement;
 
     public GameObject interactDoor;
@@ -105,6 +108,9 @@ public class Player_Controller : MonoBehaviour
                     
                     if(atCloset)
                         CM.goBack(.2f);
+                    
+                    if(atDoor)
+                        DM.goBack();
                 }
                 
                 else
@@ -214,7 +220,8 @@ public class Player_Controller : MonoBehaviour
         {
             Eyes.transform.rotation = startRot;
             transform.position = DoorTP.transform.position;
-            
+
+            atDoor = true;
             canMove = false;
             canShortFlash = true;
             canTPDoor = false;
@@ -238,6 +245,7 @@ public class Player_Controller : MonoBehaviour
             ClosetOpen.SetActive(false);
 
             atCloset = false;
+            atDoor = false;
             canMove = true;
             canShortFlash = false;
             
