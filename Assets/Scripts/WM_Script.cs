@@ -113,8 +113,9 @@ public class WM_Script : MonoBehaviour
             if (attackTimer < 0)
             {
                 atPos2 = false;
-                
-                Debug.Log("WM attack");
+
+                Debug.Log("WM Attack");
+                //SceneManager.LoadScene("GameOverWM");
             }
         }
         

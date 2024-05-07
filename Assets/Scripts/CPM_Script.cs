@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CPM_Script : MonoBehaviour
 {
@@ -94,6 +95,8 @@ public class CPM_Script : MonoBehaviour
             if (attackTimer < 0)
             {
                 Debug.Log("CPM Attack");
+                //SceneManager.LoadScene("GameOverCPM");
+                
                 atAttack = false;
             }
 

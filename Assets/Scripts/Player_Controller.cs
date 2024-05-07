@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class Player_Controller : MonoBehaviour
 
     public GameObject StartPos;
     public GameObject DoorTP;
-    public GameObject WindowTP;
+    //public GameObject WindowTP;
     public GameObject ClosetTP;
 
     public GameObject Flashlight;
@@ -43,7 +44,9 @@ public class Player_Controller : MonoBehaviour
 
     public bool canTPDoor;
     public bool canTPCloset;
-    
+
+    public AudioSource AS;
+   
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -91,6 +94,10 @@ public class Player_Controller : MonoBehaviour
             {
                 if (ShortToggle)
                 {
+                    AS.volume = .2f;
+                    AS.pitch = (Random.Range(.5f,.8f));
+                    AS.Play();
+                    
                     ShortFlashlight.SetActive(true);
                     ShortToggle = false;
                     
@@ -120,6 +127,10 @@ public class Player_Controller : MonoBehaviour
             }
             else
             {
+                AS.volume = .2f;
+                AS.pitch = (Random.Range(.8f,1f));
+                AS.Play();
+                
                 Flashlight.SetActive(true);
                 canFlash = false;
                 

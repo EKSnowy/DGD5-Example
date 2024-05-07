@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CM_Script : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class CM_Script : MonoBehaviour
             if (attackTimer <= 0)
             {
                 Debug.Log("CM Death");
+                //SceneManager.LoadScene("GameOverCM");
             }
         }
     }

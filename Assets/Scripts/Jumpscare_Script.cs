@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Jumpscare_Script : MonoBehaviour
 {
@@ -42,6 +43,17 @@ public class Jumpscare_Script : MonoBehaviour
                 transform.position = new Vector3(5, 10, -5);
                 GameOver.SetActive(true);
                 Jumpscare.SetActive(false);
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SceneManager.LoadScene("GameScene");
+                }
+                
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    SceneManager.LoadScene("StartScene");
+                }
+                
             }
     }
 }
