@@ -21,10 +21,14 @@ public class CPM_Script : MonoBehaviour
 
     public GameObject HandClosed;
     public GameObject HandOpened;
+
+    public float resetTimer;
     
     void Start()
     {
         Pos0Timer = Random.Range(10f, 20f);
+
+        resetTimer = 5f;
     }
     
     void Update()
@@ -33,7 +37,12 @@ public class CPM_Script : MonoBehaviour
 
         if (!atPos0 && !atAttack)
         {
-           Pos0Timer -= Time.deltaTime; 
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y,
+                -44.2f);
+            
+            resetTimer = 5f;
+            
+            Pos0Timer -= Time.deltaTime; 
            
            if (Pos0Timer < 0)
            {
@@ -44,6 +53,8 @@ public class CPM_Script : MonoBehaviour
         /// Continuously moves forwards until certain point \\\
         if (atPos0)
         {
+            resetTimer -= Time.deltaTime;
+            
             HandClosed.SetActive(true);
             HandOpened.SetActive(false);
             
@@ -59,12 +70,21 @@ public class CPM_Script : MonoBehaviour
                 atAttack = true;
             }
             else
-                atAttack = false;
+            {
+               atAttack = false; 
+            }
+            
+            if (transform.localPosition.z < -44.03f && resetTimer < 0)
+            {
+                atPos0 = false;
+                Pos0Timer = Random.Range(10f, 20f);
+            }
         }
 
         else if (atAttack)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, -2.1f);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y,
+                -41.08f);
             
             HandClosed.SetActive(false);
             HandOpened.SetActive(true);
@@ -79,10 +99,11 @@ public class CPM_Script : MonoBehaviour
 
             if (isFlashed)
             {
-                transform.position = new Vector3 (transform.position.x,transform.position.y,
-                    -2.2f);
+                transform.localPosition = new Vector3 (transform.localPosition.x,transform.localPosition.y,
+                    -41.2f);
 
                 atAttack = false;
+                atPos0 = true;
             }
         }
         
@@ -95,11 +116,6 @@ public class CPM_Script : MonoBehaviour
         else
         {
             isFlashed = false;
-        }
-
-        if (transform.position.z > -1.6f && atPos0)
-        {
-            Debug.Log("reset");
         }
     }
     

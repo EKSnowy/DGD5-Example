@@ -21,17 +21,13 @@ public class Player_Controller : MonoBehaviour
     public bool ShortToggle = true;
 
     public bool isFlashing;
-    public bool repel;
 
     public bool canMove = true;
-    public bool canTP = true;
     
     public float TPCooldown;
     public bool triggerCooldown;
     
     public Quaternion startRot;
-
-    public Material WoodTexture;
 
     public GameObject ClosetClose;
     public GameObject ClosetOpen;
@@ -41,6 +37,12 @@ public class Player_Controller : MonoBehaviour
     public bool atCloset = false;
 
     public Vector3 cameraMovement;
+
+    public GameObject interactDoor;
+    public GameObject interactCloset;
+
+    public bool canTPDoor;
+    public bool canTPCloset;
     
     void Start()
     {
@@ -52,6 +54,9 @@ public class Player_Controller : MonoBehaviour
         startRot = Eyes.transform.rotation;
 
         TPCooldown = .5f;
+        
+        interactDoor.SetActive(false);
+        interactCloset.SetActive(false);
     }
 
     
@@ -129,39 +134,52 @@ public class Player_Controller : MonoBehaviour
         
         ////If hovering over area, shows prompt to go\\\\\
         
-        // if (Input.GetMouseButton(0))
-        // {
-        //     if (Physics.Raycast(Eyes.transform.position, Eyes.transform.forward,
-        //             out RaycastHit hit, 10))
-        //     {
-        //         MeshRenderer mr = hit.collider.GetComponent<MeshRenderer>();
-        //         if (mr.material == WoodTexture)
-        //         {
-        //             Debug.Log("Door");
-        //         }
-        //     }
-        // }
-
+            if (Physics.Raycast(Eyes.transform.position, Eyes.transform.forward,
+                    out RaycastHit hit, 20))
+            {
+                if (hit.transform.gameObject.tag == "Door")
+                {
+                    interactDoor.SetActive(true);
+                    canTPDoor = true;
+                }
+                else
+                {
+                    interactDoor.SetActive(false);
+                    canTPDoor = false;
+                }
+                
+                if (hit.transform.gameObject.tag == "Closet")
+                {
+                    interactCloset.SetActive(true);
+                    canTPCloset = true;
+                }
+                else
+                {
+                    interactCloset.SetActive(false);
+                    canTPCloset = false;
+                }
+            }
+            
         ///////// Teleports to Window \\\\\\\\\\\\
     
-        if (Input.GetKey(KeyCode.A) && canTP)
-        {
-            Eyes.transform.rotation = startRot;
-            Eyes.transform.Rotate(0,-90,0);
-            transform.position = WindowTP.transform.position;
-
-            canMove = false;
-            canShortFlash = true;
-            canTP = false;
-            
-            Flashlight.SetActive(false);
-
-            triggerCooldown = true;
-        }
+        // if (Input.GetKey(KeyCode.A) && canTP)
+        // {
+        //     Eyes.transform.rotation = startRot;
+        //     Eyes.transform.Rotate(0,-90,0);
+        //     transform.position = WindowTP.transform.position;
+        //
+        //     canMove = false;
+        //     canShortFlash = true;
+        //     canTP = false;
+        //     
+        //     Flashlight.SetActive(false);
+        //
+        //     triggerCooldown = true;
+        // }
         
         ///////// Teleports to Closet \\\\\\\\\\\\
         
-        if (Input.GetKey(KeyCode.W) && canTP)
+        if (Input.GetKey(KeyCode.W) && canTPCloset)
         {
             Eyes.transform.rotation = startRot;
             transform.position = ClosetTP.transform.position;
@@ -172,7 +190,7 @@ public class Player_Controller : MonoBehaviour
             atCloset = true;
             canMove = false;
             canShortFlash = true;
-            canTP = false;
+            canTPCloset = false;
             
             Flashlight.SetActive(false);
             
@@ -181,14 +199,14 @@ public class Player_Controller : MonoBehaviour
         
         ///////// Teleports to Door \\\\\\\\\\\\
         
-        if (Input.GetKey(KeyCode.D) && canTP)
+        if (Input.GetKey(KeyCode.W) && canTPDoor)
         {
             Eyes.transform.rotation = startRot;
             transform.position = DoorTP.transform.position;
             
             canMove = false;
             canShortFlash = true;
-            canTP = false;
+            canTPDoor = false;
             
             Flashlight.SetActive(false);
 
@@ -197,7 +215,7 @@ public class Player_Controller : MonoBehaviour
         
         ///////// Teleports to Start \\\\\\\\\\\\
         
-        if (Input.GetKey(KeyCode.S) && !canTP && TPCooldown <= 0)
+        if (Input.GetKey(KeyCode.S) && !canTPDoor && !canTPCloset && TPCooldown <= 0)
         {
             Eyes.transform.rotation = startRot;
             transform.position = StartPos.transform.position;
@@ -211,7 +229,6 @@ public class Player_Controller : MonoBehaviour
             atCloset = false;
             canMove = true;
             canShortFlash = false;
-            canTP = true;
             
             ShortFlashlight.SetActive(false);
             Flashlight.SetActive(false);
