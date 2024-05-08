@@ -18,8 +18,12 @@ public class Jumpscare_Script : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = false;
+        
         //Record our start position
         StartPos = transform.position;
+        
+        GameOver.SetActive(false);
     }
 
     void Update()

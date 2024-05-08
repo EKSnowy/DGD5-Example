@@ -24,6 +24,8 @@ public class DM_Script : MonoBehaviour
     public GameObject Hand2;
     public GameObject Hand3;
     public GameObject Hand4;
+
+    public Game_Manager GM;
     
     void Start()
     {
@@ -99,7 +101,7 @@ public class DM_Script : MonoBehaviour
             Door.SetActive(true);
             doorOpen = false;
             
-            Pos0Timer = Random.Range(20f,40f);
+            ResetTimer();
             attackTimer = Random.Range(3f, 5f);
         }
     }
@@ -139,5 +141,29 @@ public class DM_Script : MonoBehaviour
             
             isAttacking = false;
         }
+    }
+
+    public void ResetTimer()
+    {
+        if (GM.Accelerate() == 0)
+        {
+            Pos0Timer = Random.Range(20f, 40f);
+        }
+        
+        else if (GM.Accelerate() == 1)
+        {
+            Pos0Timer = Random.Range(20f, 30f);
+        }
+        
+        else if (GM.Accelerate() == 2)
+        {
+            Pos0Timer = Random.Range(10f, 20f);
+        }
+    }
+    
+    public void toggleOff()
+    {
+        doorOpen = false;
+        Pos0Timer = 999999999999999;
     }
 }

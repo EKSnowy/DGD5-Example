@@ -12,6 +12,13 @@ public class CM_Script : MonoBehaviour
     public float attackTimer = 3f;
 
     public bool canAttack = false;
+
+    public Game_Manager GM;
+
+    public Audio_Script AS;
+
+    public int random;
+    public bool toggle = true;
     
     void Start()
     {
@@ -21,6 +28,8 @@ public class CM_Script : MonoBehaviour
     
     void Update()
     {
+        Quicken();
+        
         /// Continuously moves forwards until certain point \\\
         Vector3 vel = RB.velocity;
         vel.z = -Speed * Time.deltaTime;
@@ -35,6 +44,8 @@ public class CM_Script : MonoBehaviour
             
             attackTimer -= Time.deltaTime;
             canAttack = true;
+            
+            Randomize();
 
             if (attackTimer <= 0)
             {
@@ -46,6 +57,8 @@ public class CM_Script : MonoBehaviour
 
     public void goBack(float num)
     {
+        toggle = true;
+        
         if (transform.localPosition.z < 30.2)
         {
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y,
@@ -59,5 +72,35 @@ public class CM_Script : MonoBehaviour
     public bool isAttacking()
     {
         return canAttack;
+    }
+    
+    public void Quicken()
+    {
+        if (GM.Accelerate() == 0)
+        {
+            Speed = 15f;
+        }
+        
+        else if (GM.Accelerate() == 1)
+        {
+            Speed = 25f;
+        }
+        
+        else if (GM.Accelerate() == 2)
+        {
+            Speed = 30f;
+        }
+    }
+    
+    public void Randomize()
+    {
+        if (toggle)
+        {
+            random = Random.Range(0,2);
+            AS.SoundAudio(random);
+           
+            toggle = false;
+        }
+        
     }
 }

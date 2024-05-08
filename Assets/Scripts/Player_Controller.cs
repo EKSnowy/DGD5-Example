@@ -49,11 +49,13 @@ public class Player_Controller : MonoBehaviour
     public bool canTPCloset;
 
     public AudioSource AS;
+
+    public static bool win = false;
    
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = true;
+        Cursor.visible = false;
         
         ShortFlashlight.SetActive(false);
         Flashlight.SetActive(false);
@@ -177,23 +179,6 @@ public class Player_Controller : MonoBehaviour
                 }
             }
             
-        ///////// Teleports to Window \\\\\\\\\\\\
-    
-        // if (Input.GetKey(KeyCode.A) && canTP)
-        // {
-        //     Eyes.transform.rotation = startRot;
-        //     Eyes.transform.Rotate(0,-90,0);
-        //     transform.position = WindowTP.transform.position;
-        //
-        //     canMove = false;
-        //     canShortFlash = true;
-        //     canTP = false;
-        //     
-        //     Flashlight.SetActive(false);
-        //
-        //     triggerCooldown = true;
-        // }
-        
         ///////// Teleports to Closet \\\\\\\\\\\\
         
         if (Input.GetKey(KeyCode.W) && canTPCloset)
@@ -273,4 +258,27 @@ public class Player_Controller : MonoBehaviour
     {
         return isFlashing;
     }
+
+    public void setMove()
+    {
+        canMove = false;
+        canTPDoor = false;
+        canTPCloset = false;
+        TPCooldown = 0;
+    }
+    
+    public void endGame()
+    {
+        canMove = false;
+        TPCooldown = 10;
+        
+        Flashlight.SetActive(false);
+        AS.volume = 0;
+    }
+
+    public void DMOff()
+    {
+        DM.toggleOff();
+    }
+    
 }

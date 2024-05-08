@@ -24,6 +24,12 @@ public class CPM_Script : MonoBehaviour
     public GameObject HandOpened;
 
     public float resetTimer;
+
+    public Game_Manager GM;
+
+    public Audio_Script AS;
+    public bool toggle = true;
+    public int random;
     
     void Start()
     {
@@ -34,6 +40,8 @@ public class CPM_Script : MonoBehaviour
     
     void Update()
     {
+        Quicken();
+        
         Vector3 vel = RB.velocity;
 
         if (!atPos0 && !atAttack)
@@ -78,7 +86,7 @@ public class CPM_Script : MonoBehaviour
             if (transform.localPosition.z < -44.03f && resetTimer < 0)
             {
                 atPos0 = false;
-                Pos0Timer = Random.Range(10f, 20f);
+                ResetTimer();
             }
         }
 
@@ -89,6 +97,7 @@ public class CPM_Script : MonoBehaviour
             
             HandClosed.SetActive(false);
             HandOpened.SetActive(true);
+            Randomize();
             
             attackTimer -= Time.deltaTime;
 
@@ -112,6 +121,8 @@ public class CPM_Script : MonoBehaviour
         
         if ((isFlashed && PC.getFlashing() && atPos0))
         {
+            toggle = true;
+            
             vel.z = (-Speed * 2) * Time.deltaTime;
         
             RB.velocity = vel;
@@ -136,4 +147,55 @@ public class CPM_Script : MonoBehaviour
     {
         isFlashed = false;
     }
+    
+    public void ResetTimer()
+    {
+        if (GM.Accelerate() == 0)
+        {
+            Pos0Timer = Random.Range(10f, 20f);
+        }
+        
+        else if (GM.Accelerate() == 1)
+        {
+            Pos0Timer = Random.Range(10f, 15f);
+            Speed = 20f;
+        }
+        
+        else if (GM.Accelerate() == 2)
+        {
+            Pos0Timer = Random.Range(8f, 10f);
+            Speed = 30f;
+        }
+    }
+    
+    public void Quicken()
+    {
+        if (GM.Accelerate() == 0)
+        {
+            Speed = 10f;
+        }
+        
+        else if (GM.Accelerate() == 1)
+        {
+            Speed = 25f;
+        }
+        
+        else if (GM.Accelerate() == 2)
+        {
+            Speed = 30f;
+        }
+    }
+    
+    public void Randomize()
+    {
+        if (toggle)
+        {
+            random = Random.Range(0,3);
+            AS.SoundAudio(random);
+           
+            toggle = false;
+        }
+        
+    }
+
 }

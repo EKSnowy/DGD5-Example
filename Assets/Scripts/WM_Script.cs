@@ -23,6 +23,15 @@ public class WM_Script : MonoBehaviour
     public bool atPos2 = false;
 
     public float resetTimer;
+
+    public Game_Manager GM;
+
+    public Audio_Script AS;
+    public int random;
+    
+    public bool toggle = true;
+    public bool toggle2 = true;
+    public bool toggle3 = true;
     
     void Start()
     {
@@ -58,6 +67,8 @@ public class WM_Script : MonoBehaviour
         else if (atPos1)
         {
             Pos1.SetActive(true);
+
+            Randomize();
             
             if (PC.getCamMov() == noMovement && !PC.getFlashing())
             {
@@ -65,8 +76,8 @@ public class WM_Script : MonoBehaviour
 
                 if (resetTimer <= 0)
                 {
-                    Pos0Timer = Random.Range(20f, 30f);
-                    
+                    ResetTimer();
+                    PlaySound(4);
                     atPos1 = false;
                     atPos0 = true;
                 }
@@ -89,6 +100,7 @@ public class WM_Script : MonoBehaviour
         {
             Pos1.SetActive(false);
             Pos2.SetActive(true);
+            PlaySound(3);
             
             WindowClosed.SetActive(false);
             WindowOpen.SetActive(true);
@@ -99,8 +111,8 @@ public class WM_Script : MonoBehaviour
 
                 if (resetTimer <= 0)
                 {
-                    Pos0Timer = Random.Range(20f, 30f);
-                    
+                    ResetTimer();
+                    PlaySound(4);
                     atPos2 = false;
                     atPos0 = true;
                 }
@@ -118,7 +130,66 @@ public class WM_Script : MonoBehaviour
                 //SceneManager.LoadScene("GameOverWM");
             }
         }
+    }
+
+    public void ResetTimer()
+    {
+        toggle = true;
+        toggle2 = true;
+        toggle3 = true;
         
+        if (GM.Accelerate() == 0)
+        {
+            Pos0Timer = Random.Range(20f, 30f);
+        }
+        
+        else if (GM.Accelerate() == 1)
+        {
+            Pos0Timer = Random.Range(20f, 25f);
+        }
+        
+        else if (GM.Accelerate() == 2)
+        {
+            Pos0Timer = Random.Range(18f, 20f);
+        }
+    }
+
+    public void Randomize()
+    {
+        if (toggle)
+        {
+           random = Random.Range(0,3);
+           AS.SoundAudio(random);
+           
+           toggle = false;
+        }
+        
+    }
+
+    public void PlaySound(int index)
+    {
+        ///Plays opening window sound
+        if (index == 3)
+        {
+            if (toggle2)
+            { 
+                AS.SoundAudio(index);
+                
+                toggle2 = false;
+            }
+            
+        }
+        
+        ///Plays closing window sound
+        if (index == 4)
+        { 
+            if (toggle3)
+            { 
+                AS.SoundAudio(index);
+                
+                toggle3 = false;
+            }
+        }
     }
 
 }

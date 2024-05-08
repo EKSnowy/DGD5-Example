@@ -12,7 +12,7 @@ public class Start_Script : MonoBehaviour
     
     void Start()
     {
-        controlsScreen.SetActive(false);
+        
     }
 
     // Update is called once per frame
