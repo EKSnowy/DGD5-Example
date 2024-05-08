@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,6 +27,10 @@ public class DM_Script : MonoBehaviour
     public GameObject Hand4;
 
     public Game_Manager GM;
+
+    public Audio_Script AS;
+    public bool toggle = true;
+    public int random;
     
     void Start()
     {
@@ -50,8 +55,10 @@ public class DM_Script : MonoBehaviour
 
         if (doorOpen)
         {
+            Randomize();
+            
             attackTimer -= Time.deltaTime;
-
+            
             if (attackTimer < 0)
             {
                 if (!attack1)
@@ -93,6 +100,7 @@ public class DM_Script : MonoBehaviour
                     //SceneManager.LoadScene("GameOverDM");
                 }
             }
+            
         }
         
         if (doorOpen && Input.GetKeyDown(KeyCode.Space) && !isAttacking)
@@ -100,6 +108,7 @@ public class DM_Script : MonoBehaviour
             DoorOpened.SetActive(false);
             Door.SetActive(true);
             doorOpen = false;
+            toggle = true;
             
             ResetTimer();
             attackTimer = Random.Range(3f, 5f);
@@ -161,9 +170,15 @@ public class DM_Script : MonoBehaviour
         }
     }
     
-    public void toggleOff()
+    public void Randomize()
     {
-        doorOpen = false;
-        Pos0Timer = 999999999999999;
+        if (toggle)
+        {
+            random = Random.Range(0,2);
+            AS.SoundAudio(random);
+           
+            toggle = false;
+        }
+        
     }
 }

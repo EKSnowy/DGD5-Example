@@ -12,7 +12,7 @@ public class Player_Controller : MonoBehaviour
 
     public GameObject StartPos;
     public GameObject DoorTP;
-    //public GameObject WindowTP;
+    
     public GameObject ClosetTP;
 
     public GameObject Flashlight;
@@ -49,8 +49,6 @@ public class Player_Controller : MonoBehaviour
     public bool canTPCloset;
 
     public AudioSource AS;
-
-    public static bool win = false;
    
     void Start()
     {
@@ -257,28 +255,6 @@ public class Player_Controller : MonoBehaviour
     public bool getFlashing()
     {
         return isFlashing;
-    }
-
-    public void setMove()
-    {
-        canMove = false;
-        canTPDoor = false;
-        canTPCloset = false;
-        TPCooldown = 0;
-    }
-    
-    public void endGame()
-    {
-        canMove = false;
-        TPCooldown = 10;
-        
-        Flashlight.SetActive(false);
-        AS.volume = 0;
-    }
-
-    public void DMOff()
-    {
-        DM.toggleOff();
     }
     
 }

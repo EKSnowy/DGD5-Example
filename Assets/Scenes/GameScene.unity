@@ -11081,8 +11081,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e36b12359a8934a4f95b3fa4bb370181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SoundList: []
-  SAudio: {fileID: 0}
+  SoundList:
+  - {fileID: 8300000, guid: 6c089112dd11f634db05bd51d85e3363, type: 3}
+  - {fileID: 8300000, guid: fa0b075a864d0bb4e9c641e466db59c0, type: 3}
+  SAudio: {fileID: 654133654}
 --- !u!1 &657029276
 GameObject:
   m_ObjectHideFlags: 0
@@ -11284,11 +11286,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4250762760ab9cd4abeafaef5665dcea, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 40ec65914b9140a49b4eee02e437af2e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.234
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -11643,6 +11645,9 @@ MonoBehaviour:
   Hand3: {fileID: 1091893777}
   Hand4: {fileID: 1119509816}
   GM: {fileID: 674582337}
+  AS: {fileID: 654133655}
+  toggle: 1
+  random: 0
 --- !u!4 &702989445 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 61d1c5b9f0fbef940885abe895f1a62b, type: 3}

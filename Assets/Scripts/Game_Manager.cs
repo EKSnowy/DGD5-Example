@@ -54,4 +54,9 @@ public class Game_Manager : MonoBehaviour
     {
         return amp;
     }
+
+    public void setAmp(int num)
+    {
+        amp = num;
+    }
 }
