@@ -236,7 +236,8 @@ public class Player_Controller : MonoBehaviour
             atDoor = false;
             canMove = true;
             canShortFlash = false;
-            
+
+            isFlashing = false;
             ShortFlashlight.SetActive(false);
             Flashlight.SetActive(false);
             

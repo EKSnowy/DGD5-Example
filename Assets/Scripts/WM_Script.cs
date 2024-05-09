@@ -177,7 +177,6 @@ public class WM_Script : MonoBehaviour
                 
                 toggle2 = false;
             }
-            
         }
         
         ///Plays closing window sound
