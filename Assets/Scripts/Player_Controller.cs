@@ -49,6 +49,10 @@ public class Player_Controller : MonoBehaviour
     public bool canTPCloset;
 
     public AudioSource AS;
+
+    public GameObject Hints;
+    public float hintTimer;
+    public bool showHints = true;
    
     void Start()
     {
@@ -60,6 +64,7 @@ public class Player_Controller : MonoBehaviour
         startRot = Eyes.transform.rotation;
 
         TPCooldown = .5f;
+        hintTimer = 20f;
         
         interactDoor.SetActive(false);
         interactCloset.SetActive(false);
@@ -245,6 +250,24 @@ public class Player_Controller : MonoBehaviour
         }
         else
             ClosetSliOpen.SetActive(false);
+
+        if (showHints)
+        {
+            hintTimer -= Time.deltaTime;
+
+            if (hintTimer < 0)
+            {
+                Hints.SetActive(false);
+                showHints = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                Hints.SetActive(false);
+                showHints = false;
+            }
+        }
+        
     }
 
     public Vector3 getCamMov()

@@ -103,8 +103,8 @@ public class CPM_Script : MonoBehaviour
 
             if (attackTimer < 0)
             {
-                Debug.Log("CPM Attack");
-                //SceneManager.LoadScene("GameOverCPM");
+                //Debug.Log("CPM Attack");
+                SceneManager.LoadScene("GameOverCPM");
                 
                 atAttack = false;
             }
@@ -157,13 +157,13 @@ public class CPM_Script : MonoBehaviour
         
         else if (GM.Accelerate() == 1)
         {
-            Pos0Timer = Random.Range(10f, 15f);
+            Pos0Timer = Random.Range(8f, 12f);
             Speed = 20f;
         }
         
         else if (GM.Accelerate() == 2)
         {
-            Pos0Timer = Random.Range(8f, 10f);
+            Pos0Timer = Random.Range(5f, 10f);
             Speed = 30f;
         }
     }

@@ -30,12 +30,13 @@ public class DM_Script : MonoBehaviour
 
     public Audio_Script AS;
     public bool toggle = true;
+    public bool toggle2 = true;
     public int random;
     
     void Start()
     {
         Pos0Timer = Random.Range(20f,40f);
-        attackTimer = Random.Range(3f, 5f);
+        attackTimer = Random.Range(2f, 3f);
     }
 
     
@@ -64,7 +65,7 @@ public class DM_Script : MonoBehaviour
                 if (!attack1)
                 {
                     attack1 = true;
-                    attackTimer = Random.Range(3f, 5f);
+                    attackTimer = Random.Range(1f, 2f);
                     
                     Hand1.SetActive(true);
 
@@ -74,7 +75,7 @@ public class DM_Script : MonoBehaviour
                 else if (!attack2)
                 {
                     attack2 = true;
-                    attackTimer = Random.Range(3f, 5f);
+                    attackTimer = Random.Range(1f, 2f);
                     
                     Hand2.SetActive(true);
                 }
@@ -82,7 +83,7 @@ public class DM_Script : MonoBehaviour
                 else if (!attack3)
                 {
                     attack3 = true;
-                    attackTimer = Random.Range(3f, 5f);
+                    attackTimer = Random.Range(1f, 2f);
                     
                     Hand3.SetActive(true);
                 }
@@ -90,14 +91,14 @@ public class DM_Script : MonoBehaviour
                 else if (!attack4)
                 {
                     attack4 = true;
-                    attackTimer = Random.Range(2f, 5f);
+                    attackTimer = Random.Range(1f, 2f);
                     
                     Hand4.SetActive(true);
                 }
                 else
                 {
-                    Debug.Log("DM Attack");
-                    //SceneManager.LoadScene("GameOverDM");
+                    //Debug.Log("DM Attack");
+                    SceneManager.LoadScene("GameOverDM");
                 }
             }
             
@@ -105,13 +106,16 @@ public class DM_Script : MonoBehaviour
         
         if (doorOpen && Input.GetKeyDown(KeyCode.Space) && !isAttacking)
         {
+            PlaySound();
+            
             DoorOpened.SetActive(false);
             Door.SetActive(true);
             doorOpen = false;
             toggle = true;
+            toggle2 = true;
             
             ResetTimer();
-            attackTimer = Random.Range(3f, 5f);
+            attackTimer = Random.Range(1f, 2f);
         }
     }
 
@@ -180,5 +184,15 @@ public class DM_Script : MonoBehaviour
             toggle = false;
         }
         
+    }
+    
+    public void PlaySound()
+    {
+        ///Plays closing door sound
+        if (toggle2)
+        { 
+            AS.SoundAudio(2);
+            toggle2 = false;
+        }
     }
 }

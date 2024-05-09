@@ -126,8 +126,8 @@ public class WM_Script : MonoBehaviour
             {
                 atPos2 = false;
 
-                Debug.Log("WM Attack");
-                //SceneManager.LoadScene("GameOverWM");
+                //Debug.Log("WM Attack");
+                SceneManager.LoadScene("GameOverWM");
             }
         }
     }

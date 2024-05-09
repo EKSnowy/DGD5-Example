@@ -39,18 +39,18 @@ public class CM_Script : MonoBehaviour
         /// When at point, timer goes down till attack \\\
         if (transform.localPosition.z < 25.8f)
         {
+            Randomize();
+            
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y,
                 25.8f);
             
             attackTimer -= Time.deltaTime;
             canAttack = true;
-            
-            Randomize();
 
             if (attackTimer <= 0)
             {
-                Debug.Log("CM Death");
-                //SceneManager.LoadScene("GameOverCM");
+                //Debug.Log("CM Death");
+                SceneManager.LoadScene("GameOverCM");
             }
         }
     }
