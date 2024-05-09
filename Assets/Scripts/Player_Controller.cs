@@ -53,6 +53,8 @@ public class Player_Controller : MonoBehaviour
     public GameObject Hints;
     public float hintTimer;
     public bool showHints = true;
+
+    public Game_Manager GM;
    
     void Start()
     {
@@ -110,9 +112,18 @@ public class Player_Controller : MonoBehaviour
                     ShortToggle = false;
                     
                     isFlashing = true;
-                    
-                    if(atCloset)
-                        CM.goBack(.2f);
+
+                    if (atCloset)
+                    {
+                        if(GM.Accelerate() == 0)
+                            CM.goBack(.2f);
+                        
+                        if(GM.Accelerate() == 1)
+                            CM.goBack(.25f);
+                        
+                        if(GM.Accelerate() == 2)
+                            CM.goBack(.3f);
+                    }
                     
                     if(atDoor)
                         DM.goBack();
